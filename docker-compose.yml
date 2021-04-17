@@ -1,0 +1,6 @@
+version: "3.9"
+services:
+  file-service:
+    image: 'jruchel/fileservice'
+    ports:
+      - "8080:8080"
