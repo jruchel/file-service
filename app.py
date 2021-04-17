@@ -12,8 +12,11 @@ def get_files():
     try:
         database = open('database.txt', 'r')
         files = []
-        for line in database.readlines():
-            files.append(json.loads(line))
+        lines = database.readlines()
+        for x in range(len(lines)):
+            file = json.loads(lines[x])
+            file["id"] = x
+            files.append(file)
 
         return create_response(files, 200)
     except Exception as e:
@@ -24,12 +27,12 @@ def get_files():
 def post_file():
     try:
         content = request.get_json()
-        database = open('database.txt', 'w+')
-        database.write(content)
+        database = open('database.txt', 'a')
+        database.write("{}\n".format(str(json.dumps(content))))
         database.close()
         return create_response('Dodano', 200)
     except Exception as e:
-        return create_response(e, 500)
+        return create_response(str(e), 500)
 
 
 def create_response(data, status):
